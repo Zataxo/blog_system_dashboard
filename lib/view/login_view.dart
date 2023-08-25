@@ -1,5 +1,6 @@
 import 'package:blog_system_dashboard/res/widgets/custom_button.dart';
 import 'package:blog_system_dashboard/res/widgets/custom_text_form_field.dart';
+import 'package:blog_system_dashboard/view/home_tab_controller_view.dart';
 import 'package:blog_system_dashboard/view_model/login_view_mode.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -100,6 +101,7 @@ class _LoginViewState extends State<LoginView> {
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 8.0),
             child: CustomTextFormField(
+              isPassword: false,
               validator: (String? value) =>
                   value == null || value.isEmpty ? "" : null,
               controller: email,
@@ -109,6 +111,7 @@ class _LoginViewState extends State<LoginView> {
             ),
           ),
           CustomTextFormField(
+            isPassword: true,
             validator: (String? value) {
               if (value == null || value.isEmpty) {
                 return "";
@@ -125,14 +128,16 @@ class _LoginViewState extends State<LoginView> {
             padding: const EdgeInsets.symmetric(vertical: 22.0),
             child: Consumer<LoginViewModel>(
               builder: (context, loginViewModel, child) => CustomButtom(
+                  state: loginViewModel.globalState,
                   onPressed: () async {
                     if (_formKey.currentState!.validate()) {
-                      // debugPrint(email.text);
-                      // debugPrint(password.text);
-                      loginViewModel.login(
+                      await loginViewModel.login(
                           email.text.trim(), password.text.trim());
+                      print(loginViewModel.globalUserModel);
+                      print(loginViewModel.userToken);
+
+                      navigateAfterSuccess();
                     }
-                    // print("object");
                   },
                   title: "Login",
                   titleStyle: const TextStyle(color: Color(0xffFFFFFF))),
@@ -141,6 +146,16 @@ class _LoginViewState extends State<LoginView> {
         ],
       ),
     );
+  }
+
+  void navigateAfterSuccess() {
+    if (context.read<LoginViewModel>().globalUserModel != null) {
+      Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const HomeTapControllerView(),
+          ));
+    }
   }
 
   // Widget _buildRegistrationForm() {

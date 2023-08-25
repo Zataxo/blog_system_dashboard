@@ -8,12 +8,17 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 class LoginViewModel extends ChangeNotifier {
-  UserModel? userModel;
-  bool isLogin = true;
-  LoadingState state = LoadingState.intial;
+  UserModel? globalUserModel;
+  bool isLoginOrRegister = true;
+  LoadingState globalState = LoadingState.intial;
   String? userToken;
+  void setLoadingState(LoadingState state) {
+    globalState = state;
+    notifyListeners();
+  }
+
   void switchLoginForm() {
-    isLogin = !isLogin;
+    isLoginOrRegister = !isLoginOrRegister;
     notifyListeners();
   }
 
@@ -41,17 +46,14 @@ class LoginViewModel extends ChangeNotifier {
   }
 
   void setUserModel(UserModel userModel) {
-    userModel = userModel;
+    globalUserModel = userModel;
     // print(userModel.id);
-  }
-
-  void setLoadingState(LoadingState state) {
-    state = state;
     notifyListeners();
   }
 
   void setUserToken(String token) {
     userToken = token;
+    notifyListeners();
     print(userToken);
   }
 }

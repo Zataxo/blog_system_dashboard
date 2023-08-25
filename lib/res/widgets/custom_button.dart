@@ -1,3 +1,4 @@
+import 'package:blog_system_dashboard/utils/enums.dart';
 import 'package:flutter/material.dart';
 
 class CustomButtom extends StatelessWidget {
@@ -6,11 +7,13 @@ class CustomButtom extends StatelessWidget {
       required this.onPressed,
       required this.title,
       required this.titleStyle,
-      this.buttonColor});
+      this.buttonColor,
+      required this.state});
   final Function() onPressed;
   final String title;
   final TextStyle titleStyle;
   final Color? buttonColor;
+  final LoadingState state;
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -31,10 +34,14 @@ class CustomButtom extends StatelessWidget {
                 ),
         ),
         child: Center(
-          child: Text(
-            title,
-            style: titleStyle,
-          ),
+          child: state == LoadingState.loading
+              ? const CircularProgressIndicator(
+                  color: Color(0xffFFFFFF),
+                )
+              : Text(
+                  title,
+                  style: titleStyle,
+                ),
         ),
       ),
     );
