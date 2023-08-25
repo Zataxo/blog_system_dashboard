@@ -6,11 +6,13 @@ class CustomTextFormField extends StatelessWidget {
       required this.controller,
       required this.hintText,
       required this.hintTextStyle,
-      required this.icon});
+      required this.icon,
+      required this.validator});
   final TextEditingController controller;
   final String hintText;
   final TextStyle hintTextStyle;
   final IconData icon;
+  final String? Function(String?) validator;
 
   @override
   Widget build(BuildContext context) {
@@ -21,12 +23,7 @@ class CustomTextFormField extends StatelessWidget {
           borderRadius: BorderRadius.circular(10)),
       width: size.width * 0.2,
       child: TextFormField(
-        validator: (value) {
-          if (value != null || value == "") {
-            return "";
-          }
-          return "";
-        },
+        validator: validator,
         controller: controller,
         decoration: InputDecoration(
             border: InputBorder.none,

@@ -35,15 +35,17 @@ class _LoginViewState extends State<LoginView> {
                             topLeft: Radius.circular(24),
                             bottomLeft: Radius.circular(24))),
                     child: Center(
-                      child: context.watch<LoginViewModel>().isLogin
-                          ? _buildLoginForm()
-                          : _buildRegistrationForm(),
-                    ))),
+                        child:
+                            // context.watch<LoginViewModel>().isLogin
+                            //     ?
+                            _buildLoginForm()
+                        // : _buildRegistrationForm(),
+                        ))),
             Expanded(
                 child: MouseRegion(
               onHover: (event) {
                 context.read<LoginViewModel>().switchLoginForm();
-                print(context.read<LoginViewModel>().isLogin);
+                // print(context.read<LoginViewModel>().isLogin);
               },
               child: Container(
                   decoration: const BoxDecoration(
@@ -98,6 +100,8 @@ class _LoginViewState extends State<LoginView> {
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 8.0),
             child: CustomTextFormField(
+              validator: (String? value) =>
+                  value == null || value.isEmpty ? "" : null,
               controller: email,
               hintText: "Email",
               icon: Icons.email_outlined,
@@ -105,6 +109,13 @@ class _LoginViewState extends State<LoginView> {
             ),
           ),
           CustomTextFormField(
+            validator: (String? value) {
+              if (value == null || value.isEmpty) {
+                return "";
+              } else {
+                return null;
+              }
+            },
             controller: password,
             hintText: "Password",
             icon: Icons.lock_clock_outlined,
@@ -112,76 +123,102 @@ class _LoginViewState extends State<LoginView> {
           ),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 22.0),
-            child: CustomButtom(
-                onPressed: () {
-                  if (_formKey.currentState!.validate()) {
-                    print("d");
-                  }
-                  // print("object");
-                },
-                title: "Login",
-                titleStyle: const TextStyle(color: Color(0xffFFFFFF))),
+            child: Consumer<LoginViewModel>(
+              builder: (context, loginViewModel, child) => CustomButtom(
+                  onPressed: () async {
+                    if (_formKey.currentState!.validate()) {
+                      // debugPrint(email.text);
+                      // debugPrint(password.text);
+                      loginViewModel.login(
+                          email.text.trim(), password.text.trim());
+                    }
+                    // print("object");
+                  },
+                  title: "Login",
+                  titleStyle: const TextStyle(color: Color(0xffFFFFFF))),
+            ),
           ),
         ],
       ),
     );
   }
 
-  Widget _buildRegistrationForm() {
-    return Form(
-      key: _formKey,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Text(
-            "Sign Up",
-            style: TextStyle(
-                color: Color(0xff000000),
-                fontWeight: FontWeight.bold,
-                fontSize: 22),
-          ),
-          const Padding(
-            padding: EdgeInsets.symmetric(vertical: 8.0),
-            child: Text(
-              "Please fill the form..",
-              style: TextStyle(
-                  color: Color(0xff000000),
-                  // fontWeight: FontWeight.bold,
-                  fontSize: 14),
-            ),
-          ),
-          CustomTextFormField(
-            controller: username,
-            hintText: "Username",
-            icon: Icons.man_3_outlined,
-            hintTextStyle: const TextStyle(color: Color(0xff1C1C1C)),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 8.0),
-            child: CustomTextFormField(
-              controller: email,
-              hintText: "Email",
-              icon: Icons.email_outlined,
-              hintTextStyle: const TextStyle(color: Color(0xff1C1C1C)),
-            ),
-          ),
-          CustomTextFormField(
-            controller: password,
-            hintText: "Password",
-            icon: Icons.lock_clock_outlined,
-            hintTextStyle: const TextStyle(color: Color(0xff1C1C1C)),
-          ),
-          CustomButtom(
-              buttonColor: const Color(0xffFFFFFF),
-              onPressed: () {
-                // print("object");
-                if (_formKey.currentState!.validate()) {}
-              },
-              title: "Sign Up",
-              titleStyle: const TextStyle(fontWeight: FontWeight.bold)),
-        ],
-      ),
-    );
-  }
+  // Widget _buildRegistrationForm() {
+  //   return Form(
+  //     key: _formKey,
+  //     child: Column(
+  //       mainAxisAlignment: MainAxisAlignment.center,
+  //       crossAxisAlignment: CrossAxisAlignment.start,
+  //       children: [
+  //         const Text(
+  //           "Sign Up",
+  //           style: TextStyle(
+  //               color: Color(0xff000000),
+  //               fontWeight: FontWeight.bold,
+  //               fontSize: 22),
+  //         ),
+  //         const Padding(
+  //           padding: EdgeInsets.symmetric(vertical: 8.0),
+  //           child: Text(
+  //             "Please fill the form..",
+  //             style: TextStyle(
+  //                 color: Color(0xff000000),
+  //                 // fontWeight: FontWeight.bold,
+  //                 fontSize: 14),
+  //           ),
+  //         ),
+  //         CustomTextFormField(
+  //           controller: username,
+  //           hintText: "Username",
+  //           validator: (value) {
+  //             if (value == null || value == "") {
+  //               return "";
+  //             } else {
+  //               return value;
+  //             }
+  //           },
+  //           icon: Icons.man_3_outlined,
+  //           hintTextStyle: const TextStyle(color: Color(0xff1C1C1C)),
+  //         ),
+  //         Padding(
+  //           padding: const EdgeInsets.symmetric(vertical: 8.0),
+  //           child: CustomTextFormField(
+  //             validator: (value) {
+  //               if (value == null || value == "") {
+  //                 return "";
+  //               } else {
+  //                 return value;
+  //               }
+  //             },
+  //             controller: email,
+  //             hintText: "Email",
+  //             icon: Icons.email_outlined,
+  //             hintTextStyle: const TextStyle(color: Color(0xff1C1C1C)),
+  //           ),
+  //         ),
+  //         CustomTextFormField(
+  //           validator: (value) {
+  //             if (value == null || value == "") {
+  //               return "";
+  //             } else {
+  //               return value;
+  //             }
+  //           },
+  //           controller: password,
+  //           hintText: "Password",
+  //           icon: Icons.lock_clock_outlined,
+  //           hintTextStyle: const TextStyle(color: Color(0xff1C1C1C)),
+  //         ),
+  //         CustomButtom(
+  //             buttonColor: const Color(0xffFFFFFF),
+  //             onPressed: () {
+  //               // print("object");
+  //               if (_formKey.currentState!.validate()) {}
+  //             },
+  //             title: "Sign Up",
+  //             titleStyle: const TextStyle(fontWeight: FontWeight.bold)),
+  //       ],
+  //     ),
+  //   );
+  // }
 }
