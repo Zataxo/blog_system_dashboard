@@ -1,4 +1,5 @@
 import 'package:blog_system_dashboard/res/constants/homt_tab_controllers_const.dart';
+import 'package:blog_system_dashboard/view/login_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -34,14 +35,39 @@ class _HomeTapControllerViewState extends State<HomeTapControllerView> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Expanded(
+                        Expanded(
                           flex: 1,
-                          child: Text(
-                            "MY BLOG",
-                            style: TextStyle(
-                                color: Color(0xffFFFFFF),
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              const Padding(
+                                padding: EdgeInsets.all(8.0),
+                                child: Text(
+                                  "MY BLOG",
+                                  style: TextStyle(
+                                      color: Color(0xffFFFFFF),
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                              RotatedBox(
+                                quarterTurns: 90,
+                                child: IconButton(
+                                    onPressed: () =>
+                                        Navigator.pushAndRemoveUntil(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  const LoginView(),
+                                            ),
+                                            (route) => false),
+                                    icon: const Icon(
+                                      Icons.logout_outlined,
+                                      color: Color(0xffFFFFFF),
+                                    )),
+                              )
+                            ],
                           ),
                         ),
                         Expanded(

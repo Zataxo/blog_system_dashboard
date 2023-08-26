@@ -1,6 +1,8 @@
 import 'package:blog_system_dashboard/res/constants/dashboard_view_const.dart';
+import 'package:blog_system_dashboard/res/widgets/category_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:toggle_switch/toggle_switch.dart';
 
 class DashboardView extends StatefulWidget {
   const DashboardView({super.key});
@@ -26,12 +28,130 @@ class _DashboardViewState extends State<DashboardView> {
     );
   }
 
-  Container _buildThirdSection() {
+  Widget _buildThirdSection() {
+    return Row(
+      children: [
+        Expanded(
+          flex: 7,
+          child: Container(
+            // color: Colors.red,
+            padding: const EdgeInsets.all(20),
+            child: Column(
+              children: [
+                Expanded(
+                    flex: 3,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Text(
+                              "Most View Category",
+                              style: TextStyle(
+                                  color: Color(0xff333333),
+                                  fontWeight: FontWeight.w500),
+                            ),
+                            Text(
+                              "Overall Information",
+                              style: TextStyle(
+                                  color:
+                                      const Color(0xff333333).withOpacity(0.5)),
+                            ),
+                          ],
+                        ),
+                        // Here, default theme colors are used for activeBgColor, activeFgColor, inactiveBgColor and inactiveFgColor
+                        Column(
+                          children: [
+                            ToggleSwitch(
+                              initialLabelIndex: 0,
+                              totalSwitches: 2,
+                              activeBgColor: const [
+                                Color(0xffFF6A64),
+                                Color(0xffFFB199)
+                              ],
+                              inactiveBgColor: Colors.transparent,
+                              radiusStyle: true,
+                              labels: const ['Monthly', 'Yearly'],
+                              onToggle: (index) {
+                                // print('switched to: $index');
+                              },
+                            ),
+                          ],
+                        ),
+                      ],
+                    )),
+                Expanded(
+                    flex: 7,
+                    child: Container(
+                        padding: const EdgeInsets.all(10),
+                        child: const CategoriesChart())),
+              ],
+            ),
+          ),
+        ),
+        Expanded(
+          flex: 3,
+          child: Container(
+            // color: Colors.blue,
+            padding: const EdgeInsets.all(10),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Expanded(
+                  flex: 2,
+                  child: Padding(
+                    padding: const EdgeInsets.only(bottom: 8.0),
+                    child: Container(
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: const Color(0xffFF6A64).withOpacity(0.1)),
+                        child: const Center(
+                          child: Text(
+                            "Latest Post",
+                            style: TextStyle(
+                                color: Color(0xff333333),
+                                fontWeight: FontWeight.w500),
+                          ),
+                        )),
+                  ),
+                ),
+                Expanded(
+                    flex: 8,
+                    child: ListView.separated(
+                        separatorBuilder: (context, index) => const SizedBox(
+                              height: 5,
+                            ),
+                        itemCount: 5,
+                        itemBuilder: (context, index) => _buildLatestPosts()))
+              ],
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildLatestPosts() {
     return Container(
-        color: Colors.blue,
-        child: const Row(
-          children: [],
-        ));
+      padding: const EdgeInsets.all(10),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text(
+            "The Power of Dream",
+            style: TextStyle(
+                color: Color(0xff333333), fontWeight: FontWeight.w500),
+          ),
+          Text(
+            "28 June 2021",
+            style: TextStyle(color: const Color(0xff333333).withOpacity(0.5)),
+          )
+        ],
+      ),
+    );
   }
 
   Widget _buildSecondSection(BuildContext ctx) {

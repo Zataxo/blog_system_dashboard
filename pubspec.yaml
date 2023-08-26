@@ -37,6 +37,9 @@ dependencies:
   provider: ^6.0.5
   http: ^1.1.0
   flutter_svg: ^2.0.7
+  toggle_switch: ^2.1.0
+  syncfusion_flutter_charts: ^22.2.10
+  loading_animation_widget: ^1.2.0+4
 
 dev_dependencies:
   flutter_test:
