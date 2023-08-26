@@ -4,6 +4,7 @@ import 'dart:developer';
 import 'package:blog_system_dashboard/api/api_costants.dart';
 import 'package:blog_system_dashboard/model/user_model.dart';
 import 'package:blog_system_dashboard/utils/enums.dart';
+import 'package:blog_system_dashboard/utils/status_codes.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
@@ -31,7 +32,7 @@ class LoginViewModel extends ChangeNotifier {
         body: requestBody,
         headers: ApiConstants.headerWithOutToken,
       );
-      if (response.statusCode == 200) {
+      if (response.statusCode == StatusCode.successfulResponse) {
         setUserModel(userModelFromJson(
             jsonEncode(jsonDecode(response.body)["userModel"])));
         setUserToken(jsonEncode(jsonDecode(response.body)["token"]));
@@ -52,12 +53,12 @@ class LoginViewModel extends ChangeNotifier {
     try {
       final response = await http.post(ApiConstants.signUp,
           body: requestBody, headers: ApiConstants.headerWithOutToken);
-      print(response.statusCode);
-      print(response.body);
-      setLoadingState(LoadingState.loaded);
+      if (response.statusCode == StatusCode.successfulCreation) {
+        setLoadingState(LoadingState.loaded);
 
-      setLoadingState(LoadingState.intial);
-      notifyListeners();
+        setLoadingState(LoadingState.intial);
+        notifyListeners();
+      }
     } catch (e) {
       log(e.toString());
     }
