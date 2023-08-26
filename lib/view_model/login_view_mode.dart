@@ -38,11 +38,29 @@ class LoginViewModel extends ChangeNotifier {
       }
       setLoadingState(LoadingState.loaded);
 
+      setLoadingState(LoadingState.intial);
       notifyListeners();
     } catch (e) {
       log(e.toString());
     }
-    setLoadingState(LoadingState.intial);
+  }
+
+  Future<void> signUp(String username, String email, String password) async {
+    setLoadingState(LoadingState.loading);
+    final requestBody =
+        jsonEncode({"name": username, "email": email, "password": password});
+    try {
+      final response = await http.post(ApiConstants.signUp,
+          body: requestBody, headers: ApiConstants.headerWithOutToken);
+      print(response.statusCode);
+      print(response.body);
+      setLoadingState(LoadingState.loaded);
+
+      setLoadingState(LoadingState.intial);
+      notifyListeners();
+    } catch (e) {
+      log(e.toString());
+    }
   }
 
   void setUserModel(UserModel userModel) {

@@ -8,13 +8,13 @@ class CustomTextFormField extends StatelessWidget {
       required this.hintTextStyle,
       required this.icon,
       required this.validator,
-      required this.isPassword});
+      this.isPassword});
   final TextEditingController controller;
   final String hintText;
   final TextStyle hintTextStyle;
   final IconData icon;
   final String? Function(String?) validator;
-  final bool isPassword;
+  final bool? isPassword;
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +27,7 @@ class CustomTextFormField extends StatelessWidget {
       child: TextFormField(
         validator: validator,
         controller: controller,
-        obscureText: isPassword,
+        obscureText: isPassword ?? false,
         decoration: InputDecoration(
             border: InputBorder.none,
             // border: OutlineInputBorder(
