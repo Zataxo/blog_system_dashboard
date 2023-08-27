@@ -40,6 +40,7 @@ dependencies:
   toggle_switch: ^2.1.0
   syncfusion_flutter_charts: ^22.2.10
   loading_animation_widget: ^1.2.0+4
+  custom_pop_up_menu: ^1.2.4
 
 dev_dependencies:
   flutter_test:

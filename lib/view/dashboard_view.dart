@@ -1,5 +1,6 @@
 import 'package:blog_system_dashboard/res/constants/dashboard_view_const.dart';
 import 'package:blog_system_dashboard/res/widgets/category_chart.dart';
+import 'package:blog_system_dashboard/res/widgets/header.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:toggle_switch/toggle_switch.dart';
@@ -14,17 +15,16 @@ class DashboardView extends StatefulWidget {
 class _DashboardViewState extends State<DashboardView> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-          // color: const Color(0xffFF6A64).withOpacity(0.1),
-          borderRadius: BorderRadius.circular(20)),
-      child: Column(
-        children: [
-          Expanded(flex: 2, child: _buildFirstSection()),
-          Expanded(flex: 3, child: _buildSecondSection(context)),
-          Expanded(flex: 5, child: _buildThirdSection()),
-        ],
-      ),
+    return Column(
+      children: [
+        const Expanded(
+            flex: 2,
+            child: Header(
+              title: "Dashboard",
+            )),
+        Expanded(flex: 3, child: _buildSecondSection(context)),
+        Expanded(flex: 5, child: _buildThirdSection()),
+      ],
     );
   }
 
@@ -237,35 +237,5 @@ class _DashboardViewState extends State<DashboardView> {
         ),
       ),
     );
-  }
-
-  Container _buildFirstSection() {
-    return Container(
-        // color: Colors.red,
-        padding: const EdgeInsets.all(20),
-        child: Row(
-          children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Text(
-                  "Dashboard",
-                  style: TextStyle(
-                      color: Color(0xff333333),
-                      fontSize: 18,
-                      fontWeight: FontWeight.w500),
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 8.0),
-                  child: Text(
-                    "Home / Dashboard",
-                    style: TextStyle(
-                        color: const Color(0xff333333).withOpacity(0.5)),
-                  ),
-                ),
-              ],
-            ),
-          ],
-        ));
   }
 }
