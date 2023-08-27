@@ -1,6 +1,8 @@
 import 'package:blog_system_dashboard/res/styles/colors.dart';
 import 'package:blog_system_dashboard/view/login_view.dart';
+import 'package:blog_system_dashboard/view_model/category_view_model.dart';
 import 'package:blog_system_dashboard/view_model/login_view_mode.dart';
+import 'package:blog_system_dashboard/view_model/post_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -18,7 +20,13 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(
           create: (context) => LoginViewModel(),
-        )
+        ),
+        ChangeNotifierProvider(
+          create: (context) => PostsViewModel(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => CategoryViewModel(),
+        ),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

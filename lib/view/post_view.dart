@@ -1,8 +1,12 @@
 import 'package:blog_system_dashboard/res/dialogs/new_post_dialog.dart';
 import 'package:blog_system_dashboard/res/widgets/header.dart';
 import 'package:blog_system_dashboard/res/tables/posts_table.dart';
+import 'package:blog_system_dashboard/res/widgets/loading_data.dart';
 import 'package:blog_system_dashboard/res/widgets/search_box.dart';
+import 'package:blog_system_dashboard/utils/enums.dart';
+import 'package:blog_system_dashboard/view_model/post_view_model.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class PostView extends StatefulWidget {
   const PostView({super.key});
@@ -56,9 +60,16 @@ class _PostViewState extends State<PostView> {
             )),
         Expanded(
             flex: 7,
-            child: Container(
-              padding: const EdgeInsets.all(20),
-              child: const PostsTable(),
+            child: Consumer<PostsViewModel>(
+              builder: (context, postsViewModel, child) =>
+                  postsViewModel.globalState == LoadingState.loading
+                      ? const LoadignData()
+                      : Container(
+                          padding: const EdgeInsets.all(20),
+                          child: PostsTable(
+                            postsList: postsViewModel.getPosts(),
+                          ),
+                        ),
             ))
       ],
     );

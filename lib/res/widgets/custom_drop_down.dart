@@ -25,6 +25,7 @@ class CustomDropDown extends StatelessWidget {
           borderRadius: BorderRadius.circular(10)),
       width: size.width * 0.2,
       child: DropdownButton(
+        underline: const SizedBox(),
         alignment: Alignment.center,
         borderRadius: BorderRadius.circular(10),
         padding: const EdgeInsets.symmetric(horizontal: 12.0),
@@ -38,6 +39,7 @@ class CustomDropDown extends StatelessWidget {
         // autofocus: true,
         enableFeedback: true,
         value: value,
+
         items: items,
         onChanged: onChange,
       ),

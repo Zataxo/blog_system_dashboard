@@ -36,19 +36,19 @@ class _CustomPopMenuState extends State<CustomPopMenu> {
                       },
                       child: Container(
                         height: size.height * 0.05,
-                        width: size.width * 0.1,
+                        width: size.width * 0.12,
                         decoration:
-                            const BoxDecoration(color: Color(0xff1B2028)),
-                        padding: const EdgeInsets.symmetric(horizontal: 10),
+                            const BoxDecoration(color: Color(0xffFFFFFF)),
+                        padding: const EdgeInsets.symmetric(horizontal: 6),
                         child: Column(
                           children: [
                             Row(
                               children: <Widget>[
                                 Expanded(
-                                  flex: 1,
+                                  flex: 0,
                                   child: Icon(
                                     item.icon,
-                                    color: const Color(0xffFFFFFF),
+                                    color: const Color(0xff333333),
                                   ),
                                 ),
                                 Expanded(
@@ -60,7 +60,7 @@ class _CustomPopMenuState extends State<CustomPopMenu> {
                                     child: Text(
                                       item.desc,
                                       style: const TextStyle(
-                                        color: Color(0xffFFFFFF),
+                                        color: Color(0xff333333),
                                         fontSize: 12,
                                       ),
                                     ),
@@ -86,8 +86,7 @@ class _CustomPopMenuState extends State<CustomPopMenu> {
       controller: _controller,
       child: Container(
         padding: const EdgeInsets.all(20),
-        child: const Icon(Icons.keyboard_arrow_down_outlined,
-            color: Color(0xffBDBDBD)),
+        child: const Icon(Icons.more_horiz_outlined, color: Color(0xffBDBDBD)),
       ),
     );
   }

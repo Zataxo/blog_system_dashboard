@@ -1,7 +1,11 @@
 import 'package:blog_system_dashboard/res/constants/homt_tab_controllers_const.dart';
+import 'package:blog_system_dashboard/res/widgets/refresh_icon.dart';
 import 'package:blog_system_dashboard/view/login_view.dart';
+import 'package:blog_system_dashboard/view_model/category_view_model.dart';
+import 'package:blog_system_dashboard/view_model/post_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
 
 class HomeTapControllerView extends StatefulWidget {
   const HomeTapControllerView({super.key});
@@ -100,27 +104,17 @@ class _HomeTapControllerViewState extends State<HomeTapControllerView> {
                       Expanded(
                           flex: 1,
                           child: Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
+                            // mainAxisAlignment: MainAxisAlignment.end,
                             children: [
+                              ReloadButton(
+                                color: const Color(0xffFF6A64).withOpacity(0.5),
+                                onTap: () {
+                                  _reloadAll();
+                                },
+                              ),
+                              const Spacer(),
                               _buildUserPhotoHolder(),
-                              Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  const Text(
-                                    "Hassan Ismat",
-                                    style: TextStyle(
-                                        color: Color(0xff333333),
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                  Text(
-                                    "Software Engineer",
-                                    style: TextStyle(
-                                        color: const Color(0xff333333)
-                                            .withOpacity(0.5)),
-                                  ),
-                                ],
-                              )
+                              _buildUserInfo()
                             ],
                           )),
                       Expanded(
@@ -136,6 +130,24 @@ class _HomeTapControllerViewState extends State<HomeTapControllerView> {
           ],
         ),
       ),
+    );
+  }
+
+  Column _buildUserInfo() {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Text(
+          "Hassan Ismat",
+          style:
+              TextStyle(color: Color(0xff333333), fontWeight: FontWeight.bold),
+        ),
+        Text(
+          "Software Engineer",
+          style: TextStyle(color: const Color(0xff333333).withOpacity(0.5)),
+        ),
+      ],
     );
   }
 
@@ -207,5 +219,11 @@ class _HomeTapControllerViewState extends State<HomeTapControllerView> {
         ),
       ),
     );
+  }
+
+  void _reloadAll() {
+    // reload All providers
+    context.read<PostsViewModel>().fetchPosts();
+    context.read<CategoryViewModel>().fetchCategory();
   }
 }

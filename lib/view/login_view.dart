@@ -141,8 +141,8 @@ class _LoginViewState extends State<LoginView> {
                     if (_formKey.currentState!.validate()) {
                       await loginViewModel.login(
                           email.text.trim(), password.text.trim());
-                      print(loginViewModel.globalUserModel);
-                      print(loginViewModel.userToken);
+                      // print(loginViewModel.globalUserModel);
+                      // print(loginViewModel.userToken);
 
                       navigateAfterSuccess();
                     }

@@ -1,7 +1,11 @@
 import 'package:blog_system_dashboard/res/tables/category_table.dart';
 import 'package:blog_system_dashboard/res/widgets/header.dart';
+import 'package:blog_system_dashboard/res/widgets/loading_data.dart';
 import 'package:blog_system_dashboard/res/widgets/search_box.dart';
+import 'package:blog_system_dashboard/utils/enums.dart';
+import 'package:blog_system_dashboard/view_model/category_view_model.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class CategoryView extends StatefulWidget {
   const CategoryView({super.key});
@@ -39,7 +43,13 @@ class _CategoryViewState extends State<CategoryView> {
             flex: 7,
             child: Container(
               padding: const EdgeInsets.all(20),
-              child: const CategoryTable(),
+              child: Consumer<CategoryViewModel>(
+                  builder: (context, categoryViewModel, child) =>
+                      categoryViewModel.globalState == LoadingState.loading
+                          ? const LoadignData()
+                          : CategoryTable(
+                              categoriesList: categoryViewModel.getCategories(),
+                            )),
             ))
       ],
     );
