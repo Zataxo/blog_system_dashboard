@@ -8,13 +8,15 @@ class CustomTextFormField extends StatelessWidget {
       required this.hintTextStyle,
       required this.icon,
       required this.validator,
-      this.isPassword});
+      this.isPassword,
+      this.isRichBox});
   final TextEditingController controller;
   final String hintText;
   final TextStyle hintTextStyle;
   final IconData icon;
   final String? Function(String?) validator;
   final bool? isPassword;
+  final bool? isRichBox;
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +26,9 @@ class CustomTextFormField extends StatelessWidget {
           color: const Color(0xffF0EDFF),
           borderRadius: BorderRadius.circular(10)),
       width: size.width * 0.2,
+      height: isRichBox == true ? size.height * 0.1 : null,
       child: TextFormField(
+        maxLength: isRichBox == true ? 500 : null,
         validator: validator,
         controller: controller,
         obscureText: isPassword ?? false,

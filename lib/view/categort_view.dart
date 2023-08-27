@@ -1,5 +1,5 @@
+import 'package:blog_system_dashboard/res/tables/category_table.dart';
 import 'package:blog_system_dashboard/res/widgets/header.dart';
-import 'package:blog_system_dashboard/res/widgets/posts_table.dart';
 import 'package:blog_system_dashboard/res/widgets/search_box.dart';
 import 'package:flutter/material.dart';
 
@@ -39,7 +39,7 @@ class _CategoryViewState extends State<CategoryView> {
             flex: 7,
             child: Container(
               padding: const EdgeInsets.all(20),
-              child: const PostsTable(),
+              child: const CategoryTable(),
             ))
       ],
     );

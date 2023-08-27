@@ -8,12 +8,12 @@ class CustomButtom extends StatelessWidget {
       required this.title,
       required this.titleStyle,
       this.buttonColor,
-      required this.state});
+      this.state});
   final Function() onPressed;
   final String title;
   final TextStyle titleStyle;
   final Color? buttonColor;
-  final LoadingState state;
+  final LoadingState? state;
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -25,6 +25,7 @@ class CustomButtom extends StatelessWidget {
         padding: const EdgeInsets.all(10),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
+          color: buttonColor,
           gradient: buttonColor != null
               ? null
               : const LinearGradient(
