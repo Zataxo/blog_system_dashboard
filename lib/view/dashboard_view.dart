@@ -1,8 +1,11 @@
 import 'package:blog_system_dashboard/res/constants/dashboard_view_const.dart';
 import 'package:blog_system_dashboard/res/widgets/category_chart.dart';
 import 'package:blog_system_dashboard/res/widgets/header.dart';
+import 'package:blog_system_dashboard/view_model/category_view_model.dart';
+import 'package:blog_system_dashboard/view_model/post_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
 import 'package:toggle_switch/toggle_switch.dart';
 
 class DashboardView extends StatefulWidget {
@@ -13,8 +16,13 @@ class DashboardView extends StatefulWidget {
 }
 
 class _DashboardViewState extends State<DashboardView> {
+  List<int> totals = [];
   @override
   Widget build(BuildContext context) {
+    int totalPost = context.watch<PostsViewModel>().getPosts().length;
+    int totalCategories =
+        context.watch<CategoryViewModel>().getCategories().length;
+    totals = [totalPost, totalCategories, 1];
     return Column(
       children: [
         const Expanded(
@@ -155,23 +163,18 @@ class _DashboardViewState extends State<DashboardView> {
   }
 
   Widget _buildSecondSection(BuildContext ctx) {
+    // int totalUsers = ctx.watch<UserModel>().getCategories().length;
     return Container(
         // color: Colors.green,
         padding: const EdgeInsets.all(20),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            // Expanded(child: _buildCards("Posts", DashboardConsts.mainIcons[0])),
-            // Expanded(
-            //     child: Padding(
-            //   padding: const EdgeInsets.symmetric(horizontal: 8.0),
-            //   child: _buildCards("Category", DashboardConsts.mainIcons[1]),
-            // )),
-            // Expanded(child: _buildCards("Users", DashboardConsts.mainIcons[2])),
             Expanded(
                 child: ListView.separated(
                     scrollDirection: Axis.horizontal,
                     itemBuilder: (context, index) => _buildCards(
+                        totals[index],
                         DashboardConsts.titles[index],
                         DashboardConsts.mainIcons[index],
                         ctx,
@@ -184,7 +187,8 @@ class _DashboardViewState extends State<DashboardView> {
         ));
   }
 
-  Widget _buildCards(String title, String svgName, BuildContext ctx, int indx) {
+  Widget _buildCards(
+      int total, String title, String svgName, BuildContext ctx, int indx) {
     final size = MediaQuery.of(ctx).size;
     return MouseRegion(
       onEnter: (event) {
@@ -194,6 +198,7 @@ class _DashboardViewState extends State<DashboardView> {
       },
       onExit: (event) {
         DashboardConsts.onHoverItem = false;
+
         setState(() {});
       },
       child: Material(
@@ -222,11 +227,12 @@ class _DashboardViewState extends State<DashboardView> {
                     style: const TextStyle(
                         color: Color(0xff333333), fontWeight: FontWeight.w500),
                   ),
-                  const Padding(
-                    padding: EdgeInsets.only(top: 8.0),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 8.0),
                     child: Text(
-                      "10",
-                      style: TextStyle(color: Color(0xffFF6A64), fontSize: 16),
+                      total.toString(),
+                      style: const TextStyle(
+                          color: Color(0xffFF6A64), fontSize: 16),
                     ),
                   )
                 ],

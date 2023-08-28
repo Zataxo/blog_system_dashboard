@@ -1,3 +1,4 @@
+import 'package:blog_system_dashboard/res/dialogs/new_category.dart';
 import 'package:blog_system_dashboard/res/tables/category_table.dart';
 import 'package:blog_system_dashboard/res/widgets/header.dart';
 import 'package:blog_system_dashboard/res/widgets/loading_data.dart';
@@ -30,13 +31,31 @@ class _CategoryViewState extends State<CategoryView> {
             flex: 1,
             child: Container(
               padding: const EdgeInsets.only(left: 20),
-              child: SearchBox(
-                controller: _search,
-                hintText: "Search",
-                hintTextStyle:
-                    TextStyle(color: const Color(0xff333333).withOpacity(0.5)),
-                icon: Icons.search_outlined,
-                validator: (String? v) => v == null || v.isEmpty ? "" : null,
+              child: Row(
+                children: [
+                  Expanded(
+                    flex: 9,
+                    child: SearchBox(
+                      controller: _search,
+                      hintText: "Search",
+                      hintTextStyle: TextStyle(
+                          color: const Color(0xff333333).withOpacity(0.5)),
+                      icon: Icons.search_outlined,
+                      validator: (String? v) =>
+                          v == null || v.isEmpty ? "" : null,
+                    ),
+                  ),
+                  Expanded(
+                    flex: 1,
+                    child: IconButton(
+                        onPressed: () => showDialog(
+                              context: context,
+                              barrierDismissible: false,
+                              builder: (context) => const NewCategoryDialog(),
+                            ),
+                        icon: const Icon(Icons.add_outlined)),
+                  )
+                ],
               ),
             )),
         Expanded(

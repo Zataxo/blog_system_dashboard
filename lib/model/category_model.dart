@@ -37,4 +37,8 @@ class CategoryModel {
         "createdAt": createdAt.toIso8601String(),
         "updatedAt": updatedAt.toIso8601String(),
       };
+  static newCategory({
+    required String name,
+  }) =>
+      {"name": name};
 }

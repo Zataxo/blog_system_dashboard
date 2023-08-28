@@ -68,4 +68,16 @@ class PostsViewModel extends ChangeNotifier {
       log(e.toString());
     }
   }
+
+  List<DropdownMenuItem<String>> getPostsAsString() {
+    List<DropdownMenuItem<String>> list = [];
+    list.add(const DropdownMenuItem(value: "Post", child: Text("Post")));
+    List<String> listAsString = _fileredList.map((e) => e.title).toList();
+
+    for (int item = 0; item < listAsString.length; item++) {
+      list.add(DropdownMenuItem(
+          value: listAsString[item], child: Text(listAsString[item])));
+    }
+    return list;
+  }
 }

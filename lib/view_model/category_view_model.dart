@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:developer';
 
 import 'package:blog_system_dashboard/api/api_costants.dart';
@@ -46,6 +47,26 @@ class CategoryViewModel extends ChangeNotifier {
     } catch (e) {
       print(e);
       return [];
+    }
+  }
+
+  Future<void> createCategory(Map<String, dynamic> newCategory) async {
+    setLoadingState(LoadingState.loading);
+    try {
+      final http.Response response = await http.post(
+          ApiConstants.createCategory,
+          headers: ApiConstants.headerWithOutToken,
+          body: jsonEncode(newCategory));
+      if (response.statusCode == StatusCode.successfulCreation) {
+        print(response.body);
+      } else {
+        print(response.statusCode);
+      }
+
+      setLoadingState(LoadingState.loaded);
+      setLoadingState(LoadingState.intial);
+    } catch (e) {
+      print(e.toString());
     }
   }
 
