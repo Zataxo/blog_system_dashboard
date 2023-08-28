@@ -80,4 +80,10 @@ class PostsViewModel extends ChangeNotifier {
     }
     return list;
   }
+
+  int getMostCategoryPost(int categoryId) {
+    return _fileredList
+        .where((element) => element.categoryId == categoryId)
+        .length;
+  }
 }

@@ -1,6 +1,9 @@
+import 'package:blog_system_dashboard/model/post_model.dart';
 import 'package:blog_system_dashboard/res/constants/dashboard_view_const.dart';
 import 'package:blog_system_dashboard/res/widgets/category_chart.dart';
 import 'package:blog_system_dashboard/res/widgets/header.dart';
+import 'package:blog_system_dashboard/res/widgets/loading_data.dart';
+import 'package:blog_system_dashboard/utils/enums.dart';
 import 'package:blog_system_dashboard/view_model/category_view_model.dart';
 import 'package:blog_system_dashboard/view_model/post_view_model.dart';
 import 'package:flutter/material.dart';
@@ -92,9 +95,17 @@ class _DashboardViewState extends State<DashboardView> {
                     )),
                 Expanded(
                     flex: 7,
-                    child: Container(
-                        padding: const EdgeInsets.all(10),
-                        child: const CategoriesChart())),
+                    child: Consumer<CategoryViewModel>(
+                      builder: (context, categoryViewModel, child) =>
+                          categoryViewModel.globalState == LoadingState.loading
+                              ? const LoadignData()
+                              : Container(
+                                  padding: const EdgeInsets.all(10),
+                                  child: CategoriesChart(
+                                    categoryList:
+                                        categoryViewModel.getCategories(),
+                                  )),
+                    )),
               ],
             ),
           ),
@@ -128,12 +139,20 @@ class _DashboardViewState extends State<DashboardView> {
                 ),
                 Expanded(
                     flex: 8,
-                    child: ListView.separated(
-                        separatorBuilder: (context, index) => const SizedBox(
-                              height: 5,
-                            ),
-                        itemCount: 5,
-                        itemBuilder: (context, index) => _buildLatestPosts()))
+                    child: Consumer<PostsViewModel>(
+                      builder: (context, postsViewModel, child) =>
+                          postsViewModel.globalState == LoadingState.loading
+                              ? const LoadignData()
+                              : ListView.separated(
+                                  separatorBuilder: (context, index) =>
+                                      const SizedBox(
+                                        height: 5,
+                                      ),
+                                  itemCount: postsViewModel.getPosts().length,
+                                  itemBuilder: (context, index) =>
+                                      _buildLatestPosts(
+                                          postsViewModel.getPosts()[index])),
+                    ))
               ],
             ),
           ),
@@ -142,19 +161,19 @@ class _DashboardViewState extends State<DashboardView> {
     );
   }
 
-  Widget _buildLatestPosts() {
+  Widget _buildLatestPosts(PostModel post) {
     return Container(
       padding: const EdgeInsets.all(10),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
-            "The Power of Dream",
-            style: TextStyle(
+          Text(
+            post.title,
+            style: const TextStyle(
                 color: Color(0xff333333), fontWeight: FontWeight.w500),
           ),
           Text(
-            "28 June 2021",
+            post.createdAt.toString().split(" ")[0],
             style: TextStyle(color: const Color(0xff333333).withOpacity(0.5)),
           )
         ],
