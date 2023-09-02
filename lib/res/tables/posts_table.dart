@@ -2,7 +2,9 @@ import 'package:blog_system_dashboard/model/post_model.dart';
 import 'package:blog_system_dashboard/res/dialogs/new_post_dialog.dart';
 import 'package:blog_system_dashboard/res/models/pop_menu_model.dart';
 import 'package:blog_system_dashboard/res/widgets/custom_pop_menu.dart';
+import 'package:blog_system_dashboard/view_model/category_view_model.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class PostsTable extends StatelessWidget {
   const PostsTable({
@@ -39,18 +41,22 @@ class PostsTable extends StatelessWidget {
       DataCell(Text(post.id.toString())),
       DataCell(Text(post.title)),
       DataCell(Text(post.user.name)),
-      DataCell(Text(post.content)),
-      DataCell(CustomPopMenu(popMenuModel: optionList(ctx))),
+      DataCell(Text(
+          ctx.read<CategoryViewModel>().getCategoryNameById(post.categoryId))),
+      DataCell(CustomPopMenu(popMenuModel: optionList(ctx, post))),
     ]);
   }
 
-  List<PopMenuModel> optionList(BuildContext ctx) {
+  List<PopMenuModel> optionList(BuildContext ctx, PostModel model) {
     List<PopMenuModel> list = [];
     list.add(PopMenuModel(
         icon: Icons.add_outlined,
         desc: "Update Post",
         onPressed: () => showDialog(
-            context: ctx, builder: (context) => const NewPostDialog())));
+            context: ctx,
+            builder: (context) => NewPostDialog(
+                  postModel: model,
+                ))));
     list.add(PopMenuModel(
         icon: Icons.book_online_outlined,
         desc: "Post Deatails",

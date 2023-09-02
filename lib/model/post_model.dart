@@ -69,6 +69,17 @@ class PostModel {
         "categoryId": categoryId,
         "userId": userId
       };
+  // static method for updating  post
+  static updatePost({
+    required String title,
+    required String content,
+    required int categoryId,
+  }) =>
+      {
+        "title": title,
+        "content": content,
+        "categoryId": categoryId,
+      };
 }
 
 class User {

@@ -61,9 +61,30 @@ class PostsViewModel extends ChangeNotifier {
       final http.Response response = await http.post(ApiConstants.createPost,
           body: jsonEncode(post), headers: ApiConstants.headerWithOutToken);
       print(response.statusCode);
-      setLoadingState(LoadingState.loaded);
-      setLoadingState(LoadingState.intial);
-      notifyListeners();
+      if (response.statusCode == StatusCode.successfulCreation) {
+        setLoadingState(LoadingState.loaded);
+        setLoadingState(LoadingState.intial);
+        notifyListeners();
+      }
+    } catch (e) {
+      log(e.toString());
+    }
+  }
+
+  Future<void> updatePost(
+      Map<String, dynamic> post, int postId, String token) async {
+    setLoadingState(LoadingState.loading);
+    try {
+      final http.Response response = await http.patch(
+          Uri.parse("${ApiConstants.updatePost}/$postId"),
+          body: jsonEncode(post),
+          headers: ApiConstants.getheaderWithToken(token));
+      if (response.statusCode == StatusCode.successfulResponse) {
+        setLoadingState(LoadingState.loaded);
+        setLoadingState(LoadingState.intial);
+        notifyListeners();
+      }
+      // print(response.statusCode);
     } catch (e) {
       log(e.toString());
     }

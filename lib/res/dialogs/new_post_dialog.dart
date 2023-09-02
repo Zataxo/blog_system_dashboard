@@ -13,7 +13,9 @@ import 'package:provider/provider.dart';
 class NewPostDialog extends StatefulWidget {
   const NewPostDialog({
     super.key,
+    this.postModel,
   });
+  final PostModel? postModel;
 
   @override
   State<NewPostDialog> createState() => _NewPostDialogState();
@@ -25,6 +27,12 @@ class _NewPostDialogState extends State<NewPostDialog> {
       TextEditingController(text: "Category");
   final _content = TextEditingController();
   final _newPostFormKey = GlobalKey<FormState>();
+  @override
+  void initState() {
+    assigningValue();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -125,18 +133,32 @@ class _NewPostDialogState extends State<NewPostDialog> {
               Consumer<PostsViewModel>(
                 builder: (context, postsViewModel, child) => CustomButtom(
                   onPressed: () async {
+                    final token = context.read<LoginViewModel>().userToken!;
                     if (_newPostFormKey.currentState!.validate()) {
-                      await postsViewModel.createPost(PostModel.newPost(
-                          title: _title.text.trim(),
-                          content: _content.text.trim(),
-                          userId: context
-                              .read<LoginViewModel>()
-                              .globalUserModel!
-                              .id,
-                          categoryId: context
-                              .read<CategoryViewModel>()
-                              .getCategoryIdByName(
-                                  _category.text.toLowerCase().trim())));
+                      if (widget.postModel == null) {
+                        await postsViewModel.createPost(PostModel.newPost(
+                            title: _title.text.trim(),
+                            content: _content.text.trim(),
+                            userId: context
+                                .read<LoginViewModel>()
+                                .globalUserModel!
+                                .id,
+                            categoryId: context
+                                .read<CategoryViewModel>()
+                                .getCategoryIdByName(
+                                    _category.text.toLowerCase().trim())));
+                      } else {
+                        await postsViewModel.updatePost(
+                            PostModel.updatePost(
+                                title: _title.text.trim(),
+                                content: _content.text.trim(),
+                                categoryId: context
+                                    .read<CategoryViewModel>()
+                                    .getCategoryIdByName(
+                                        _category.text.toLowerCase().trim())),
+                            widget.postModel!.id,
+                            token);
+                      }
                       await postsViewModel.fetchPosts();
                       // print(_category.text);
                       _clearing();
@@ -163,5 +185,15 @@ class _NewPostDialogState extends State<NewPostDialog> {
     _category.text = "Category";
     _content.clear();
     _title.clear();
+  }
+
+  void assigningValue() {
+    if (widget.postModel != null) {
+      _title.text = widget.postModel!.title;
+      _content.text = widget.postModel!.content;
+      _category.text = context
+          .read<CategoryViewModel>()
+          .getCategoryNameById(widget.postModel!.categoryId);
+    } else {}
   }
 }

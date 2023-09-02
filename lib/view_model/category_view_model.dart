@@ -92,4 +92,14 @@ class CategoryViewModel extends ChangeNotifier {
       return 0;
     }
   }
+
+  String getCategoryNameById(int categoryId) {
+    try {
+      return _fileredList
+          .firstWhere((element) => element.id == categoryId)
+          .name;
+    } catch (e) {
+      return "";
+    }
+  }
 }
